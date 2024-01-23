@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Home from "./page";
+import { UserContext } from '@/contexts/UserProvider';
 
 const mockPush = jest.fn();
 
@@ -48,5 +49,24 @@ describe("home page", () => {
         await userEvent.click(button);
 
         expect(mockPush).toHaveBeenCalledWith('/profile');
+    })
+
+    it('should set the user context when clicking on the create user button', async () => {
+        const setUserMock = jest.fn();
+
+        render(
+            <UserContext.Provider value={{ userName: '', setUserName: setUserMock }}>
+                <Home />
+            </UserContext.Provider >
+
+        )
+
+        const placeHolder = await screen.findByPlaceholderText("Enter a name");
+        await userEvent.type(placeHolder, 'bob');
+
+        const button = await screen.findByRole('button', { name: 'Create your character' });
+        await userEvent.click(button);
+
+        expect(setUserMock).toHaveBeenCalledWith('bob');
     })
 })

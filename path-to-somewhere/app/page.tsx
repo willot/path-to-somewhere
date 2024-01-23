@@ -1,10 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { UserContext } from "@/contexts/UserProvider";
 
 export default function Home() {
-
+  const user = useContext(UserContext)
   const router = useRouter();
   const [name, setName] = useState("");
 
@@ -26,7 +27,8 @@ export default function Home() {
       className="bg-cyan-600 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
         disabled={isNameFormated()}
         onClick={() => {
-          router.push('/profile')
+          user?.setUserName(name);
+          router.push('/profile');
         }}>
         Create your character
       </button>
