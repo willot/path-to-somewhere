@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import Profile from "./page"
 import { UserContext, UserProvider } from "@/contexts/UserProvider"
+import userEvent from "@testing-library/user-event";
 
 const mockPush = jest.fn();
 
@@ -32,5 +33,19 @@ describe("Profile page", () => {
         )
 
         expect(mockPush).toHaveBeenCalledWith('/');
+    })
+
+    it('should display the name of the selected character and a bio when image is clicked', async () =>{
+        render(
+            <UserContext.Provider value={{userName: 'Mike', setUserName: jest.fn()}}>
+                <Profile />
+            </UserContext.Provider>
+        )
+
+        const monkImg = await screen.findByRole('button', {name:'Monk'});
+        await userEvent.click(monkImg);
+
+        expect(screen.getByText('MONK')).toBeVisible;
+        expect(screen.getByText('Bio:')).toBeVisible;
     })
 })

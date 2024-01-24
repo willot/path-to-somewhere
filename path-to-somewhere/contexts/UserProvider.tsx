@@ -11,7 +11,6 @@ export interface AppUser {
 export const UserContext = createContext<AppUser | undefined>(undefined);
 
 export function UserProvider ({ children }: { children: React.ReactNode }) {
-    console.log("localStorage.getItem('userName')", localStorage.getItem('userName'))
     const [userName, setUserName] = useState<string | undefined | null>(localStorage.getItem('userName'));
 
     useEffect(() => {
