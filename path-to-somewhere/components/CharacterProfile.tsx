@@ -1,6 +1,13 @@
-const CharacterProfile = () => {
+import { Character } from "@/app/profile/page";
+
+interface CharacterProfileProps {
+    character: Character,
+}
+
+const CharacterProfile = ({character}: CharacterProfileProps) => {
     return (
-        <section>
+        <section className="max-w-3xl">
+            <div className="flex flex-col items-center mb-6 text-3xl font-bold text-cyan-600">{character!.toUpperCase()}</div>
             <h3>
                 Bio:
             </h3>

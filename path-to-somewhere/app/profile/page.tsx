@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import CharacterProfile from "@/components/CharacterProfile";
 
 
-type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined;
+export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined;
 
 
 const Profile = () => {
@@ -44,9 +44,7 @@ const Profile = () => {
             </div>
             {selection && (
                 <>
-                    <div>{selection.toUpperCase()}</div>
-                    
-                    <CharacterProfile />
+                    <CharacterProfile character={selection}/>
                 </>
             )}
         </main>
