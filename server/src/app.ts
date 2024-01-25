@@ -1,7 +1,11 @@
-import express from 'express';
+import express, {json}from 'express';
+import cors from 'cors';
+
 
 const app = express();
 const port = 3001;
+app.use(cors());
+app.use(json());
 
 // Define a simple endpoint
 app.get('/api/hello', (req, res) => {

@@ -4,6 +4,7 @@ import { UserContext } from "@/contexts/UserProvider";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import CharacterProfile from "@/components/CharacterProfile";
+import axios from 'axios';
 
 
 export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined;
@@ -14,12 +15,21 @@ const Profile = () => {
     const router = useRouter();
 
     const [selection, setSelection] = useState<Character>();
+    const [message, setMessage] = useState<string>('');
 
     useEffect(() => {
         if (user && (user.userName === null || user.userName === '')) {
             router.push('/');
         }
     }, [user?.userName])
+
+    useEffect(() => {
+        // Fetch data from the backend when the component mounts
+        axios.get('http://localhost:3001/api/hello')
+          .then(response => setMessage(response.data.message))
+          .catch(error => console.error('Error fetching data:', error));
+      }, []);
+
     return (
         <main className="flex min-h-screen flex-col items-center gap-8 p-24">
             <h1 className="text-3xl font-bold text-cyan-600">Welcome {user?.userName}</h1>
