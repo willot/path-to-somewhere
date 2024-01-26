@@ -1,5 +1,6 @@
 import express, {json}from 'express';
 import cors from 'cors';
+import { knightProfile, monkProfile, warriorProfile, wizardProfile } from './CharacterProfile';
 
 
 const app = express();
@@ -11,6 +12,12 @@ app.use(json());
 app.get('/api/hello', (req, res) => {
     res.json({ message: 'We have a back end' });
 });
+
+app.get('/api/bio', (req, res) => {
+    res.json ({
+        characters: [wizardProfile, monkProfile, warriorProfile, knightProfile]
+    })
+})
 
 // Start the server
 app.listen(port, () => {

@@ -7,7 +7,7 @@ import CharacterProfile from "@/components/CharacterProfile";
 import axios from 'axios';
 import {
     useQuery,
-  } from '@tanstack/react-query'
+} from '@tanstack/react-query'
 
 export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined;
 
@@ -24,17 +24,17 @@ const Profile = () => {
         }
     }, [user?.userName])
 
-        const { isPending, error, data, isFetching } = useQuery({
-          queryKey: ['repoData'],
-          queryFn: () =>
+    const { isPending, error, data, isFetching } = useQuery({
+        queryKey: ['characters'],
+        queryFn: () =>
             axios
-              .get('http://localhost:3001/api/hello')
-              .then((res) => res.data),
-        })
-      
-        if (isPending) return 'Loading...'
-      
-        if (error) return 'An error has occurred: ' + error.message
+                .get('http://localhost:3001/api/bio')
+                .then((res) => res.data),
+    })
+
+    if (isPending) return 'Loading...'
+
+    if (error) return 'An error has occurred: ' + error.message
 
     return (
         <main className="flex min-h-screen flex-col items-center gap-8 p-24">
@@ -60,10 +60,10 @@ const Profile = () => {
             </div>
             {selection && (
                 <>
-                    <CharacterProfile character={selection}/>
+                    <CharacterProfile character={selection} characterProfiles={data.characters}/>
                 </>
             )}
-            
+
         </main>
     )
 }

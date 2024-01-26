@@ -3,6 +3,10 @@ import Profile from "./page"
 import { UserContext, UserProvider } from "@/contexts/UserProvider"
 import userEvent from "@testing-library/user-event";
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
+import axios from 'axios';
+
+jest.mock('axios');
+
 
 const mockPush = jest.fn();
 
@@ -14,6 +18,28 @@ jest.mock('next/navigation', () => ({
 }));
 
 describe("Profile page", () => {
+
+    beforeEach(() => {
+        (axios.get as jest.Mock).mockResolvedValue({
+            data: { characters: [{
+                name: "monk",
+                bio: "Silent and agile",
+                skills: [
+                    {
+                        name: 'Martial Arts Mastery',
+                        description: 'description 1',
+                    },
+                    {
+                        name: 'Zen Meditation',
+                        description: 'description 2',
+                    },
+            
+                ],
+            
+            }] },
+          });
+    })
+
     it('should display the name the user Pick on the page from the context', async () => {
         render(
             <ReactQueryProvider>
@@ -54,5 +80,23 @@ describe("Profile page", () => {
 
         expect(screen.getByText('MONK')).toBeVisible;
         expect(screen.getByText('Bio:')).toBeVisible;
+    })
+
+    it('should display the bio from api when user click on image', async () => {
+        render(
+            <ReactQueryProvider>
+                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn() }}>
+                    <Profile />
+                </UserContext.Provider>
+            </ReactQueryProvider>
+        )
+
+        const monkImg = await screen.findByRole('button', { name: 'Monk' });
+        await userEvent.click(monkImg);
+
+        expect(screen.getByText('MONK')).toBeVisible;
+        expect(screen.getByText(/Silent and agile/)).toBeVisible;
+        expect(screen.getByText(/Zen Meditation/)).toBeVisible;
+        expect(screen.getByText(/description 2/)).toBeVisible;
     })
 })
