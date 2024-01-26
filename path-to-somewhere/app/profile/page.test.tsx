@@ -21,23 +21,25 @@ describe("Profile page", () => {
 
     beforeEach(() => {
         (axios.get as jest.Mock).mockResolvedValue({
-            data: { characters: [{
-                name: "monk",
-                bio: "Silent and agile",
-                skills: [
-                    {
-                        name: 'Martial Arts Mastery',
-                        description: 'description 1',
-                    },
-                    {
-                        name: 'Zen Meditation',
-                        description: 'description 2',
-                    },
-            
-                ],
-            
-            }] },
-          });
+            data: {
+                characters: [{
+                    name: "monk",
+                    bio: "Silent and agile",
+                    skills: [
+                        {
+                            name: 'Martial Arts Mastery',
+                            description: 'description 1',
+                        },
+                        {
+                            name: 'Zen Meditation',
+                            description: 'description 2',
+                        },
+
+                    ],
+
+                }]
+            },
+        });
     })
 
     it('should display the name the user Pick on the page from the context', async () => {
@@ -75,7 +77,7 @@ describe("Profile page", () => {
             </ReactQueryProvider>
         )
 
-        const monkImg = await screen.findByRole('button', { name: 'Monk' });
+        const monkImg = await screen.findByRole('button', { name: 'monk' });
         await userEvent.click(monkImg);
 
         expect(screen.getByText('MONK')).toBeVisible;
@@ -91,12 +93,33 @@ describe("Profile page", () => {
             </ReactQueryProvider>
         )
 
-        const monkImg = await screen.findByRole('button', { name: 'Monk' });
+        const monkImg = await screen.findByRole('button', { name: 'monk' });
         await userEvent.click(monkImg);
 
         expect(screen.getByText('MONK')).toBeVisible;
         expect(screen.getByText(/Silent and agile/)).toBeVisible;
         expect(screen.getByText(/Zen Meditation/)).toBeVisible;
         expect(screen.getByText(/description 2/)).toBeVisible;
+    })
+
+    it('should direct user to th dungeon page when selection is confirmed ', async () => {
+        const mockSetCharacterSelection = jest.fn();
+
+        render(
+            <ReactQueryProvider>
+                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn(), character: undefined, setCharacterSelection: mockSetCharacterSelection }}>
+                    <Profile />
+                </UserContext.Provider>
+            </ReactQueryProvider>
+        )
+
+        const monkImg = await screen.findByRole('button', { name: 'monk' });
+        await userEvent.click(monkImg);
+
+        const confirmationButton = screen.getByRole('button', { name: 'Confirm Selection' })
+        await userEvent.click(confirmationButton);
+
+        expect(mockSetCharacterSelection).toHaveBeenCalledWith('monk')
+        expect(mockPush).toHaveBeenCalledWith('/dungeon');
     })
 })

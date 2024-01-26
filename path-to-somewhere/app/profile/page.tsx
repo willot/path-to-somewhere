@@ -10,7 +10,7 @@ import {
 } from '@tanstack/react-query'
 import ImageButton from "@/components/ImageButton";
 
-export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined;
+export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined | null;
 
 
 const Profile = () => {
@@ -52,7 +52,13 @@ const Profile = () => {
                     <CharacterProfile character={selection} characterProfiles={data.characters}/>
                 </>
             )}
-
+        <button 
+        disabled={!selection}
+        onClick={() => {
+            user?.setCharacterSelection(selection);
+            router.push('/dungeon');
+        }}
+        >Confirm Selection</button>
         </main>
     )
 }
