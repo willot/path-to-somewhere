@@ -29,8 +29,8 @@ describe("dungeon page", () => {
             </ReactQueryProvider>
         );
 
-        const room1Button = await screen.findByRole('button', { name: 'room1' })
-        await userEvent.click(room1Button);
+        const roomButtons = await screen.findAllByRole('button', { name: 'Open' })
+        await userEvent.click(roomButtons[0]);
         expect(screen.getByRole('button', { name: 'Enter' })).toBeVisible();
 
 
