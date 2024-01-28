@@ -1,14 +1,23 @@
 import { useState } from "react"
+import { Vitals } from "./Inventory";
 
 type Choice = 'enter' | 'leave' | undefined
 
-const Room1 = () => {
+interface Room1Props{
+    setVitals:(value: Vitals)=> void;
+    vitals: Vitals;
+}
+
+const Room1 = ({setVitals, vitals}: Room1Props) => {
 
     const [choice, setChoice] = useState<Choice>();
     return (
         <>
             <span>Room1</span>
-            <button onClick={() => setChoice('enter')}>Enter</button>
+            <button onClick={() => {
+                setChoice('enter');
+                setVitals({...vitals, health: 0});
+                }}>Enter</button>
             <button onClick={() => setChoice('leave')}>Leave</button>
 
             {choice === 'enter' && (

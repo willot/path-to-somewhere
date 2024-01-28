@@ -13,9 +13,15 @@ const Room1 = dynamic(() => import('@/components/Room1'), {
     ssr: false, // Set server-side rendering to false
 })
 
+const defaultVitals = {
+    health: 200,
+    mana: 40,
+}
+
 const Dungeon = () => {
     const user = useContext(UserContext)
     const [roomSelection, setRoomSelection] = useState<number | undefined>();
+    const [vitals, setVitals] = useState(defaultVitals);
 
 
     const { isPending, error, data, isFetching } = useQuery({
@@ -45,10 +51,10 @@ const Dungeon = () => {
                         }))}
                     </section>
                 </div>
-                <Inventory />
+                <Inventory vitals={vitals}/>
             </div>
             {roomSelection && (
-                    <Room1 />
+                    <Room1 setVitals={setVitals} vitals={vitals}/>
                 )}
         </main>
     )

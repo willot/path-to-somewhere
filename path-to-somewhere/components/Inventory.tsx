@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 type PotionName = 'Health' | 'Strengh' | 'Mana';
 type PotionEffect = 40 | 80;
@@ -20,12 +21,16 @@ interface Armor {
     defense: number,
 }
 
-interface Vitals {
+export interface Vitals {
     health: number,
     mana: number,
 }
 
-const Inventory = () => {
+interface InventoryProps {
+    vitals: Vitals
+}
+
+const Inventory = ({vitals}: InventoryProps) => {
     const potions = [{ name: 'Health', effect: 40 }, { name: 'Health', effect: 40 }, { name: 'Strengh', effect: 40 },]
     const weapon = {
         name: 'Axe',
@@ -36,10 +41,7 @@ const Inventory = () => {
         defense: 20,
     }
 
-    const vitals = {
-        health: 200,
-        mana: 40,
-    }
+   
 
     return (
         <section className="flex flex-col gap-2 items-center">
