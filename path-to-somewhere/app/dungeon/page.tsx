@@ -1,7 +1,14 @@
 "use client"
-import Room1 from "@/components/Room1";
 import { UserContext } from "@/contexts/UserProvider";
 import { useContext, useState } from "react";
+
+import dynamic from 'next/dynamic'
+
+const Room1 = dynamic(() => import('@/components/Room1'), {
+    loading: () => <p>Loading...</p>,
+    ssr: false, // Set server-side rendering to false
+})
+
 
 const Dungeon = () => {
     const user = useContext(UserContext)
@@ -21,9 +28,9 @@ const Dungeon = () => {
                 <button>room3</button>
             </section>
 
-            {roomSelection && (<section>
-                <Room1/>
-            </section>)}
+            {roomSelection && (
+                <Room1 />
+            )}
         </main>
     )
 }

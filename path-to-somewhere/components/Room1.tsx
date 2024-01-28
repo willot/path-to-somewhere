@@ -13,11 +13,11 @@ const Room1 = () => {
             {choice === 'enter' && (
                 <>
                 <p>The ceiling fall on you and you die</p>
-                <img src={'/rock.jpg'} />
+                <img src={'/rock.jpg'}  alt="a big rock crushed you"/>
                 </>
             )}
             {choice === 'leave' && (
-                <p>Good choice the ceiling crash has you left</p>
+                <p>Good choice the ceiling crumble has you close the door</p>
             )}
         </>
     )
