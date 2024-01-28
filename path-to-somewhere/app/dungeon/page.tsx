@@ -6,12 +6,12 @@ import dynamic from 'next/dynamic'
 import RoomButton from "@/components/RoomButton";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Inventory from "@/components/Inventory";
 
 const Room1 = dynamic(() => import('@/components/Room1'), {
     loading: () => <p>Loading...</p>,
     ssr: false, // Set server-side rendering to false
 })
-
 
 const Dungeon = () => {
     const user = useContext(UserContext)
@@ -26,36 +26,30 @@ const Dungeon = () => {
                 .then((res) => res.data),
     });
 
-    // const rooms = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    // const shuffle = (array: number[]) => {
-    //     for (let i = array.length - 1; i > 0; i--) {
-    //         const j = Math.floor(Math.random() * (i + 1));
-    //         [array[i], array[j]] = [array[j], array[i]];
-    //     }
-    //     return array;
-    // };
-
     return (
-        <main className="flex min-h-screen flex-col items-center gap-8 p-24">
-            <h1>Dungeon</h1>
-            <h1 className="text-3xl font-bold text-cyan-600">Welcome {user?.userName} powerful {user?.character}</h1>
-            <section className="grid grid-cols-3 gap-1">
-                {data && (data.rooms.map((room: number) => {
-                    return (
-                        <RoomButton
-                            key={room}
-                            roomIndex={room}
-                            disabledButton={false}
-                            setRoomSelection={setRoomSelection}
-                        />
-                    )
-                }))}
-            </section>
-
+        <main className="flex min-h-screen flex-col items-center gap-8 p-4 md:p-24">
+            <h1 className="text-3xl font-bold text-cyan-600 mb-4">Dungeon</h1>
+            <div className="flex flex-col justify-between gap-5 w-full sm:flex-row sm:gap-0">
+                <div className="flex w-full flex-col items-center">
+                <h2 className="text-3xl font-bold mb-4">Welcome {user?.userName} powerful {user?.character}</h2>
+                    <section className="grid grid-cols-3 gap-1 grow">
+                        {data && (data.rooms.map((room: number) => {
+                            return (
+                                <RoomButton
+                                    key={room}
+                                    roomIndex={room}
+                                    disabledButton={false}
+                                    setRoomSelection={setRoomSelection}
+                                />
+                            )
+                        }))}
+                    </section>
+                </div>
+                <Inventory />
+            </div>
             {roomSelection && (
-                <Room1 />
-            )}
+                    <Room1 />
+                )}
         </main>
     )
 }

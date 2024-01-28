@@ -5,9 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import CharacterProfile from "@/components/CharacterProfile";
 import axios from 'axios';
-import {
-    useQuery,
-} from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import ImageButton from "@/components/ImageButton";
 
 export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined | null;
@@ -49,16 +47,16 @@ const Profile = () => {
             </div>
             {selection && (
                 <>
-                    <CharacterProfile character={selection} characterProfiles={data.characters}/>
+                    <CharacterProfile character={selection} characterProfiles={data.characters} />
                 </>
             )}
-        <button 
-        disabled={!selection}
-        onClick={() => {
-            user?.setCharacterSelection(selection);
-            router.push('/dungeon');
-        }}
-        >Confirm Selection</button>
+            <button
+                disabled={!selection}
+                onClick={() => {
+                    user?.setCharacterSelection(selection);
+                    router.push('/dungeon');
+                }}
+            >Confirm Selection</button>
         </main>
     )
 }

@@ -15,7 +15,7 @@ const RoomButton = ({ disabledButton, roomIndex, setRoomSelection }: RoomButtonP
     return (
         <>
             <button
-                className="w-20 h-20 bg-neutral-700 rounded disabled:opacity-50"
+                className="w-28 h-28 bg-neutral-700 rounded disabled:opacity-50"
                 aria-label={explored ? 'Explored' : 'Open'}
                 disabled={disabledButton}
                 onClick={() => {
