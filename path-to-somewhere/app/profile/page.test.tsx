@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import Profile from "./page"
-import { UserContext, UserProvider } from "@/contexts/UserProvider"
+import { CharacterDetails, UserContext, UserProvider } from "@/contexts/UserProvider"
 import userEvent from "@testing-library/user-event";
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
 import axios from 'axios';
@@ -18,6 +18,8 @@ jest.mock('next/navigation', () => ({
 }));
 
 describe("Profile page", () => {
+
+    let characterDetails = {} as unknown as CharacterDetails;
 
     beforeEach(() => {
         (axios.get as jest.Mock).mockResolvedValue({
@@ -40,12 +42,21 @@ describe("Profile page", () => {
                 }]
             },
         });
-    })
+
+        characterDetails = {
+            userName: 'Mike',
+            name: undefined,
+            baselineVitals: undefined,
+            weapons: undefined,
+            armor: undefined
+        }
+
+    });
 
     it('should display the name the user Pick on the page from the context', async () => {
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Profile />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -57,9 +68,17 @@ describe("Profile page", () => {
     })
 
     it('should redirect to home page if there is no userName', async () => {
+        characterDetails = {
+            userName: undefined,
+            name: undefined,
+            baselineVitals: undefined,
+            weapons: undefined,
+            armor: undefined
+        }
+
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: null, setUserName: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Profile />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -71,7 +90,7 @@ describe("Profile page", () => {
     it('should display the name of the selected character and a bio when image is clicked', async () => {
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Profile />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -87,7 +106,7 @@ describe("Profile page", () => {
     it('should display the bio from api when user click on image', async () => {
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Profile />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -103,11 +122,11 @@ describe("Profile page", () => {
     })
 
     it('should direct user to th dungeon page when selection is confirmed ', async () => {
-        const mockSetCharacterSelection = jest.fn();
+        const mockSetCharacterDetails = jest.fn();
 
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Mike', setUserName: jest.fn(), character: undefined, setCharacterSelection: mockSetCharacterSelection }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: mockSetCharacterDetails }}>
                     <Profile />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -119,7 +138,13 @@ describe("Profile page", () => {
         const confirmationButton = screen.getByRole('button', { name: 'Confirm Selection' })
         await userEvent.click(confirmationButton);
 
-        expect(mockSetCharacterSelection).toHaveBeenCalledWith('monk')
+        expect(mockSetCharacterDetails).toHaveBeenCalledWith({
+            "armor": undefined,
+            "baselineVitals": undefined,
+            "name": "monk",
+            "userName": "Mike",
+            "weapons": undefined
+        })
         expect(mockPush).toHaveBeenCalledWith('/dungeon');
     })
 })

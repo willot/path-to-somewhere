@@ -37,7 +37,7 @@ const Dungeon = () => {
             <h1 className="text-3xl font-bold text-cyan-600 mb-4">Dungeon</h1>
             <div className="flex flex-col justify-between gap-5 w-full sm:flex-row sm:gap-0">
                 <div className="flex w-full flex-col items-center">
-                <h2 className="text-3xl font-bold mb-4">Welcome {user?.userName} powerful {user?.character}</h2>
+                <h2 className="text-3xl font-bold mb-4">Welcome {user?.characterDetails.userName} powerful {user?.characterDetails.name}</h2>
                     <section className="grid grid-cols-3 gap-1 grow">
                         {data && (data.rooms.map((room: number) => {
                             return (

@@ -10,13 +10,13 @@ interface Potion {
 
 type WeaponType = 'Sword' | 'Staff' | 'Axe' | 'Dagger';
 
-interface Weapon {
+export interface Weapon {
     name: WeaponType,
     damage: number,
 }
 
 type ArmorName = 'Light' | 'Medium' | 'Heavy'
-interface Armor {
+export interface Armor {
     name: ArmorName,
     defense: number,
 }

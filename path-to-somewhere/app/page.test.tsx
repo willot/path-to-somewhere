@@ -53,9 +53,16 @@ describe("home page", () => {
 
     it('should set the user context when clicking on the create user button', async () => {
         const setUserMock = jest.fn();
+        const characterDetails = {
+            userName: undefined,
+            name: undefined,
+            baselineVitals: undefined,
+            weapons: undefined,
+            armor: undefined
+        }
 
         render(
-            <UserContext.Provider value={{ userName: '', setUserName: setUserMock }}>
+            <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: setUserMock }}>
                 <Home />
             </UserContext.Provider >
 
@@ -67,6 +74,6 @@ describe("home page", () => {
         const button = await screen.findByRole('button', { name: 'Create your character' });
         await userEvent.click(button);
 
-        expect(setUserMock).toHaveBeenCalledWith('bob');
+        expect(setUserMock).toHaveBeenCalledWith({"armor": undefined, "baselineVitals": undefined, "name": undefined, "userName": "bob", "weapons": undefined});
     })
 })

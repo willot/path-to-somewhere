@@ -27,7 +27,10 @@ export default function Home() {
       className="bg-cyan-600 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
         disabled={isNameFormated()}
         onClick={() => {
-          user?.setUserName(name);
+          user?.setCharacterDetails({
+            ...user.characterDetails,
+            userName: name
+          });
           router.push('/profile');
         }}>
         Create your character

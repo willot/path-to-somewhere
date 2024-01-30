@@ -1,12 +1,12 @@
 "use client"
 
-import { UserContext } from "@/contexts/UserProvider";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from 'next/navigation';
 import CharacterProfile from "@/components/CharacterProfile";
-import axios from 'axios';
-import { useQuery } from '@tanstack/react-query'
 import ImageButton from "@/components/ImageButton";
+import { CharacterDetails, UserContext } from "@/contexts/UserProvider";
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useContext, useEffect, useState } from "react";
 
 export type Character = 'wizard' | 'knight' | 'monk' | 'warrior' | undefined | null;
 
@@ -18,10 +18,10 @@ const Profile = () => {
     const [selection, setSelection] = useState<Character>();
 
     useEffect(() => {
-        if (user && (user.userName === null || user.userName === '')) {
+        if (user && user.characterDetails && (user.characterDetails.userName === undefined || user.characterDetails.userName === '')) {
             router.push('/');
         }
-    }, [user?.userName])
+    }, [user?.characterDetails.userName])
 
     const { isPending, error, data, isFetching } = useQuery({
         queryKey: ['characters'],
@@ -35,9 +35,15 @@ const Profile = () => {
 
     if (error) return 'An error has occurred: ' + error.message
 
+    const findCharacterInfo = () => {
+        return data.characters.find((character: CharacterDetails) => {
+                return character.name === selection
+        })
+    }
+
     return (
         <main className="flex min-h-screen flex-col items-center gap-8 p-24">
-            <h1 className="text-3xl font-bold text-cyan-600">Welcome {user?.userName}</h1>
+            <h1 className="text-3xl font-bold text-cyan-600">Welcome {user?.characterDetails.userName}</h1>
             <h2 className="text-2xl font-bold">Select your character</h2>
             <div className="grid grid-cols-2 gap-3">
                 <ImageButton character={"wizard"} setter={setSelection} />
@@ -53,7 +59,14 @@ const Profile = () => {
             <button
                 disabled={!selection}
                 onClick={() => {
-                    user?.setCharacterSelection(selection);
+                    console.log("findCharacterInfo", findCharacterInfo())
+                    user?.setCharacterDetails({
+                        ...user.characterDetails,
+                        name:selection,
+                        baselineVitals: findCharacterInfo().baselineVitals,
+                        weapons: findCharacterInfo().weapons,
+                        armor: findCharacterInfo().armor,
+                    })
                     router.push('/dungeon');
                 }}
             >Confirm Selection</button>

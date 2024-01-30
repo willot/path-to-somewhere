@@ -1,15 +1,26 @@
 import ReactQueryProvider from "@/contexts/ReactQueryProvider";
 import Dungeon from "./page";
-import { UserContext } from "@/contexts/UserProvider";
+import { CharacterDetails, UserContext } from "@/contexts/UserProvider";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 describe("dungeon page", () => {
+    let characterDetails = {} as unknown as CharacterDetails;
+
+    beforeEach(() => {
+        characterDetails = {
+            userName: 'Tom',
+            name: "warrior",
+            baselineVitals: undefined,
+            weapons: undefined,
+            armor: undefined
+        }
+    });
 
     it('should display the name the user Pick and the class of character on the page from the context', async () => {
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Tom', setUserName: jest.fn(), character: 'warrior', setCharacter: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Dungeon />
                 </UserContext.Provider>
             </ReactQueryProvider>
@@ -23,7 +34,7 @@ describe("dungeon page", () => {
     it('should display room1 content when user click on Room1', async () => {
         render(
             <ReactQueryProvider>
-                <UserContext.Provider value={{ userName: 'Tom', setUserName: jest.fn(), character: 'warrior', setCharacter: jest.fn() }}>
+                <UserContext.Provider value={{ characterDetails: characterDetails, setCharacterDetails: jest.fn() }}>
                     <Dungeon />
                 </UserContext.Provider>
             </ReactQueryProvider>

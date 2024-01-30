@@ -1,34 +1,54 @@
 'use client';
 
 import { Character } from "@/app/profile/page";
-import { useState, createContext, useEffect } from "react";
-import React from 'react';
+import { Armor, Vitals, Weapon } from "@/components/Inventory";
+import { log } from "console";
+import React, { createContext, useEffect, useState } from 'react';
+
+
+const setLocalStorageObject = (key: string, value: CharacterDetails) => {
+    localStorage.setItem(key, JSON.stringify(value));
+};
+
+const getLocalStorageObject = (key: string): CharacterDetails | undefined => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : null;
+};
+
+export interface CharacterDetails {
+    userName: string | undefined,
+    name: Character,
+    baselineVitals: Vitals | undefined,
+    weapons: Weapon | undefined,
+    armor: Armor | undefined
+}
 
 export interface AppUser {
-    userName: string | undefined | null;
-    setUserName: (value: string) => void;
-    character: Character;
-    setCharacterSelection: (value: Character) => void;
+    characterDetails: CharacterDetails,
+    setCharacterDetails: (value: CharacterDetails) => void;
+}
+
+const emptyCharacterDetails: CharacterDetails = {
+    userName: undefined,
+    name: undefined,
+    baselineVitals: undefined,
+    weapons: undefined,
+    armor: undefined
 }
 
 export const UserContext = createContext<AppUser | undefined>(undefined);
 
-export function UserProvider ({ children }: { children: React.ReactNode }) {
-    const [userName, setUserName] = useState<string | undefined | null>(localStorage.getItem('userName'));
-    const [character, setCharacterSelection] = useState<Character | undefined | null>(localStorage.getItem('character'));
+export function UserProvider({ children }: { children: React.ReactNode }) {
+    const [characterDetails, setCharacterDetails] = useState<CharacterDetails>(getLocalStorageObject('characterDetails') || emptyCharacterDetails);
 
     useEffect(() => {
-        if(userName){
-            localStorage.setItem('userName', userName);
+        if (characterDetails.userName || characterDetails.name) {
+            setLocalStorageObject('characterDetails', characterDetails)
         }
-
-        if(character){
-            localStorage.setItem('character', character)
-        }
-    }, [userName, character])
+    }, [characterDetails.userName, characterDetails.name])
 
     return (
-        <UserContext.Provider value={{ userName, setUserName, character, setCharacterSelection }}>
+        <UserContext.Provider value={{ characterDetails, setCharacterDetails }}>
             {children}
         </UserContext.Provider>
     )
