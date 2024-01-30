@@ -1,6 +1,7 @@
-import express, {json}from 'express';
+import express, { json } from 'express';
 import cors from 'cors';
 import { knightProfile, monkProfile, warriorProfile, wizardProfile } from './CharacterProfile';
+import { enemies } from './Enemies';
 
 
 const app = express();
@@ -8,13 +9,21 @@ const port = 3001;
 app.use(cors());
 app.use(json());
 
+const shuffle = (array: number[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
 // Define a simple endpoint
 app.get('/api/hello', (req, res) => {
     res.json({ message: 'We have a back end' });
 });
 
 app.get('/api/bio', (req, res) => {
-    res.json ({
+    res.json({
         characters: [wizardProfile, monkProfile, warriorProfile, knightProfile]
     })
 });
@@ -22,17 +31,16 @@ app.get('/api/bio', (req, res) => {
 app.get('/api/rooms', (req, res) => {
 
     const rooms = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    const shuffle = (array: number[]) => {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    };
-
-    res.json ({
+    res.json({
         rooms: shuffle(rooms)
+    })
+});
+
+app.get('/api/enemy', (req, res) => {
+    const luckArray = [0,1,2];
+    const enemyToFace = shuffle(luckArray)[0];
+    res.json({
+        enemy:enemies[enemyToFace]
     })
 })
 
