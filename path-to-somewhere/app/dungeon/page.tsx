@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Inventory from "@/components/Inventory";
 
-const Room1 = dynamic(() => import('@/components/Room1'), {
+const RoomCeiling = dynamic(() => import('@/components/RoomCeiling'), {
     loading: () => <p>Loading...</p>,
     ssr: false, // Set server-side rendering to false
 })
@@ -54,7 +54,7 @@ const Dungeon = () => {
                 <Inventory vitals={vitals}/>
             </div>
             {roomSelection && (
-                    <Room1 setVitals={setVitals} vitals={vitals}/>
+                    <RoomCeiling setVitals={setVitals} vitals={vitals}/>
                 )}
         </main>
     )

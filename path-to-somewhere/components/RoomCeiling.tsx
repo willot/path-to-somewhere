@@ -8,7 +8,7 @@ interface Room1Props{
     vitals: Vitals;
 }
 
-const Room1 = ({setVitals, vitals}: Room1Props) => {
+const RoomCeiling = ({setVitals, vitals}: Room1Props) => {
 
     const [choice, setChoice] = useState<Choice>();
     return (
@@ -33,4 +33,4 @@ const Room1 = ({setVitals, vitals}: Room1Props) => {
     )
 }
 
-export default Room1;
+export default RoomCeiling;
