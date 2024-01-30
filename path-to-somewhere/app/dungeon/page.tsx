@@ -21,7 +21,7 @@ const defaultVitals = {
 const Dungeon = () => {
     const user = useContext(UserContext)
     const [roomSelection, setRoomSelection] = useState<number | undefined>();
-    const [vitals, setVitals] = useState(defaultVitals);
+    const [vitals, setVitals] = useState(user?.characterDetails.baselineVitals);
 
 
     const { isPending, error, data, isFetching } = useQuery({

@@ -11,7 +11,7 @@ describe("dungeon page", () => {
         characterDetails = {
             userName: 'Tom',
             name: "warrior",
-            baselineVitals: undefined,
+            baselineVitals: {health: 100, mana: 100},
             weapons: undefined,
             armor: undefined
         }
