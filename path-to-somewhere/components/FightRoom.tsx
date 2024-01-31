@@ -29,8 +29,9 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
     const [enemyHealth, setEnemyHealth] = useState<number>(enemies[enemyIndex].health)
 
     useEffect(() => {
-        setEnemyIndex(determineEnemy());
-        setEnemyHealth(enemies[enemyIndex].health);
+        const roomEnemy =determineEnemy()
+        setEnemyIndex(roomEnemy);
+        setEnemyHealth(enemies[roomEnemy].health);
     }, [roomIndex]);
 
     const calculateDamage = () => {

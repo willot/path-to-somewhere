@@ -48,8 +48,6 @@ const Dungeon = () => {
         staleTime: 0,
     });
 
-    console.log("enemyData", enemyData)
-
     return (
         <main className="flex min-h-screen flex-col items-center gap-8 p-4 md:p-24">
             <h1 className="text-3xl font-bold text-cyan-600 mb-4">Dungeon</h1>
