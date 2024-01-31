@@ -56,9 +56,9 @@ const Inventory = ({vitals}: InventoryProps) => {
             <section>
                 <h3 className="font-medium">Potions</h3>
                 <div className="flex flex-row gap-2">
-                    {potions.map((potion) => {
+                    {potions.map((potion, index) => {
                         return (
-                            <div className="relative">
+                            <div className="relative" key={index}>
                                 <img className="max-w-12 max-h-12 rounded " src={potion.name === 'Health' ? './health.png' : './mana.png'} />
                                 <span className="absolute top-0 right-0 text-amber-300 bg-slate-400 rounded-full">{potion.effect}</span>
                             </div>

@@ -1,10 +1,82 @@
-const FightRoom = () => {
+import { Enemy } from "@/app/dungeon/page";
+import { useQuery } from "@tanstack/react-query"
+import axios from "axios"
+import { log } from "console";
+import { useContext, useEffect, useState } from "react";
+import { Vitals } from "./Inventory";
+import { UserContext } from "@/contexts/UserProvider";
+
+interface FightRoomProps {
+    enemies: Enemy[];
+    roomIndex: number;
+    setVitals: (value: Vitals) => void;
+    vitals: Vitals;
+}
+
+const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) => {
+    const user = useContext(UserContext)
+
+    const determineEnemy = () => {
+        if (roomIndex % 3 === 0) {
+            return 2
+        }
+        if (roomIndex % 2 === 0) {
+            return 0
+        }
+        else return 1
+    }
+    const [enemyIndex, setEnemyIndex] = useState<number>(determineEnemy());
+    const [enemyHealth, setEnemyHealth] = useState<number>(enemies[enemyIndex].health)
+
+    useEffect(() => {
+        setEnemyIndex(determineEnemy());
+        setEnemyHealth(enemies[enemyIndex].health);
+    }, [roomIndex]);
+
+    const calculateDamage = () => {
+        let damageInflicted = 0;
+        let damageReceived = 0;
+        const randomNumberBetween1and10 = Math.floor(Math.random() * 11);
+        console.log('randomNumberBetween1and10', randomNumberBetween1and10)
+
+
+        if (user && user.characterDetails) {
+            damageInflicted = enemyHealth - user.characterDetails.weapons!.damage
+            setEnemyHealth(damageInflicted);
+
+            if (randomNumberBetween1and10 >= enemies[enemyIndex].hitChance) {
+                damageReceived = vitals.health + user.characterDetails.armor!.defense - enemies[enemyIndex].damage;
+                setVitals({ ...vitals, health: damageReceived })
+            }
+        }
+    }
+
+
     return (
-        <>
-            <span>Fight Room</span>
-            <button onClick={() => {
-                setChoice('enter');
-            }}>Enter</button>
-        </>
+        <section className="flex flex-col items-center">
+            <span>Fight Room {roomIndex}</span>
+            {enemyIndex >= 0 && (
+                <div>
+                    <h3>Enemy present in the room:  {enemies[enemyIndex].name}</h3>
+                    <span>Health: {enemyHealth > 0 ? enemyHealth : 0}</span>
+                    <img className={"max-w-80 max-h-80 pt-4 m-auto"} src={`./${enemies[enemyIndex].name}.png`} />
+                </div>
+            )
+            }
+            {enemyHealth > 0 && (
+                <button onClick={() => {
+                    calculateDamage();
+                }}>Attack with weapon</button>
+            )}
+            {enemyHealth < 0 && (
+                <section>
+                    <p className="text-2xl text-bold text-red-600 p-y-2">You vanquished your enemy!</p>
+                    <p>You still have <span className="text-red-600 italic font-semibold">{vitals.health}</span> of life remaining</p>
+                    <p>Pick another Room</p>
+                </section>
+            )}
+        </section>
     )
 }
+
+export default FightRoom;

@@ -17,11 +17,6 @@ const shuffle = (array: number[]) => {
     return array;
 };
 
-// Define a simple endpoint
-app.get('/api/hello', (req, res) => {
-    res.json({ message: 'We have a back end' });
-});
-
 app.get('/api/bio', (req, res) => {
     res.json({
         characters: [wizardProfile, monkProfile, warriorProfile, knightProfile]
@@ -37,10 +32,8 @@ app.get('/api/rooms', (req, res) => {
 });
 
 app.get('/api/enemy', (req, res) => {
-    const luckArray = [0,1,2];
-    const enemyToFace = shuffle(luckArray)[0];
     res.json({
-        enemy:enemies[enemyToFace]
+        enemies:enemies
     })
 })
 
