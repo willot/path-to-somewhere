@@ -43,6 +43,8 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
             damageInflicted = enemyHealth - user.characterDetails.weapons!.damage
             setEnemyHealth(damageInflicted);
 
+            console.log("enemies[enemyIndex].hitChance", enemies[enemyIndex].hitChance)
+
             if (randomNumberBetween1and10 >= enemies[enemyIndex].hitChance) {
                 damageReceived = vitals.health + user.characterDetails.armor!.defense - enemies[enemyIndex].damage;
                 setVitals({ ...vitals, health: damageReceived })
@@ -70,7 +72,7 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
                     calculateDamage();
                 }}>Attack with weapon</button>
             )}
-            {enemyHealth < 0 && (
+            {enemyHealth <= 0 && (
                 <section>
                     <p className="text-2xl text-bold text-red-600 py-4">You vanquished your enemy!</p>
                     <p className="text-center">You still have <span className="text-red-600 italic font-semibold">{vitals.health}</span> of life remaining</p>
