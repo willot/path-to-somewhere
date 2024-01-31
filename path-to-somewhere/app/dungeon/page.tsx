@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Inventory from "@/components/Inventory";
 import FightRoom from "@/components/FightRoom";
+import { useRouter } from "next/navigation";
 
 export interface Enemy {
     name: string,
@@ -25,6 +26,7 @@ const RoomCeiling = dynamic(() => import('@/components/RoomCeiling'), {
 
 const Dungeon = () => {
     const user = useContext(UserContext);
+    const router = useRouter();
     const [roomSelection, setRoomSelection] = useState<number | undefined>();
     const [vitals, setVitals] = useState(user?.characterDetails.baselineVitals);
 
@@ -75,7 +77,12 @@ const Dungeon = () => {
                         <RoomCeiling setVitals={setVitals} vitals={vitals!} />
                     ) : (<FightRoom roomIndex={roomSelection} enemies={enemyData.enemies} setVitals={setVitals} vitals={vitals!} />))}
                 </>
-            ): <div> you are dead...</div>}
+            ) : (<>
+                <div> you are dead...</div>
+                <button onClick={() => {
+                    router.push('/profile');
+                }}>Restart</button>
+            </>)}
         </main>
     )
 }

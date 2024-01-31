@@ -37,7 +37,6 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
         let damageInflicted = 0;
         let damageReceived = 0;
         const randomNumberBetween1and10 = Math.floor(Math.random() * 11);
-        console.log('randomNumberBetween1and10', randomNumberBetween1and10)
 
 
         if (user && user.characterDetails) {
@@ -58,7 +57,10 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
             {enemyIndex >= 0 && (
                 <div>
                     <h3>Enemy present in the room:  {enemies[enemyIndex].name}</h3>
-                    <span>Health: {enemyHealth > 0 ? enemyHealth : 0}</span>
+                    <div className="flex flex-row justify-between">
+                        <span className="text-red-600">Enemy Health: {enemyHealth > 0 ? enemyHealth : 0}</span>
+                        <span className="text-cyan-600">Your Health: {vitals.health > 0 ? vitals.health : 0}</span>
+                    </div>
                     <img className={"max-w-80 max-h-80 pt-4 m-auto"} src={`./${enemies[enemyIndex].name}.png`} />
                 </div>
             )
@@ -70,9 +72,9 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
             )}
             {enemyHealth < 0 && (
                 <section>
-                    <p className="text-2xl text-bold text-red-600 p-y-2">You vanquished your enemy!</p>
-                    <p>You still have <span className="text-red-600 italic font-semibold">{vitals.health}</span> of life remaining</p>
-                    <p>Pick another Room</p>
+                    <p className="text-2xl text-bold text-red-600 py-4">You vanquished your enemy!</p>
+                    <p className="text-center">You still have <span className="text-red-600 italic font-semibold">{vitals.health}</span> of life remaining</p>
+                    <p className="text-center p-4">Pick another Room</p>
                 </section>
             )}
         </section>
