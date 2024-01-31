@@ -43,8 +43,6 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
             damageInflicted = enemyHealth - user.characterDetails.weapons!.damage
             setEnemyHealth(damageInflicted);
 
-            console.log("enemies[enemyIndex].hitChance", enemies[enemyIndex].hitChance)
-
             if (randomNumberBetween1and10 >= enemies[enemyIndex].hitChance) {
                 damageReceived = vitals.health + user.characterDetails.armor!.defense - enemies[enemyIndex].damage;
                 setVitals({ ...vitals, health: damageReceived })
@@ -68,7 +66,9 @@ const FightRoom = ({ enemies, roomIndex, setVitals, vitals }: FightRoomProps) =>
             )
             }
             {enemyHealth > 0 && (
-                <button onClick={() => {
+                <button
+                className="bg-cyan-600 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500 mt-4"
+                 onClick={() => {
                     calculateDamage();
                 }}>Attack with weapon</button>
             )}

@@ -58,6 +58,7 @@ const Profile = () => {
             )}
             <button
                 disabled={!selection}
+                className="bg-cyan-600 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
                 onClick={() => {
                     console.log("findCharacterInfo", findCharacterInfo())
                     user?.setCharacterDetails({

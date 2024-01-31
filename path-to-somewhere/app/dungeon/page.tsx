@@ -79,7 +79,9 @@ const Dungeon = () => {
                 </>
             ) : (<>
                 <div> you are dead...</div>
-                <button onClick={() => {
+                <button 
+                className="bg-cyan-600 min-w-32 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
+                onClick={() => {
                     router.push('/profile');
                 }}>Restart</button>
             </>)}

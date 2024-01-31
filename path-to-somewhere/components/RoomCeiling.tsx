@@ -15,22 +15,27 @@ const RoomCeiling = ({ setVitals, vitals }: Room1Props) => {
     const [choice, setChoice] = useState<Choice>();
     return (
         <>
-            <span>Room1</span>
+            <span>Room 1</span>
             {choice === undefined && (
                 <>
-                    <button onClick={() => {
+                    <button 
+                    className="bg-cyan-600 min-w-32 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
+                    onClick={() => {
                         setChoice('enter');
-                        // setVitals({...vitals, health: 0});
                     }}>Enter</button>
-                    <button onClick={() => setChoice('leave')}>Leave</button>
+                    <button 
+                    className="bg-red-600  min-w-32 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
+                    onClick={() => setChoice('leave')}>Leave</button>
                 </>
             )}
 
             {choice === 'enter' && (
                 <>
-                    <p>The ceiling fall on you and you die</p>
-                    <img className={"max-w-3xl"} src={'/rock.jpg'} alt="a big rock crushed you" />
-                    <button onClick={() => {
+                    <p className="font-bold text-xl">The ceiling fall on you and you die</p>
+                    <img className={"max-w-3xl rounded"} src={'/rock.jpg'} alt="a big rock crushed you" />
+                    <button 
+                    className="bg-cyan-600 min-w-32 p-3 text-lg rounded-full disabled:bg-gray-500 disabled:opacity-50 hover:bg-indigo-500"
+                    onClick={() => {
                         router.push('/profile');
                     }}>Restart</button>
                 </>
