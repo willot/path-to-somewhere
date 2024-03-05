@@ -2,12 +2,20 @@ import express, { json } from 'express';
 import cors from 'cors';
 import { knightProfile, monkProfile, warriorProfile, wizardProfile } from './CharacterProfile';
 import { enemies } from './Enemies';
+import { Router } from 'express';
 
+const inventory = require('./inventoryController');
 
 const app = express();
 const port = 3001;
 app.use(cors());
 app.use(json());
+
+const inventoryRouter = Router();
+app.use('/api/inventory', inventoryRouter);
+inventoryRouter.route('/').get(inventory.getAllInventory);
+inventoryRouter.route('/:id').get(inventory.getInventoryById);
+
 
 const shuffle = (array: number[]) => {
     for (let i = array.length - 1; i > 0; i--) {

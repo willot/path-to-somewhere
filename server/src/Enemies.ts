@@ -20,4 +20,4 @@ export const enemies = [
         hitChance: 8,
         description:"A colossal construct of enchanted iron, the Ironclad Golem Guardian defends the dungeon's heart. With unyielding strength and impenetrable armor, this formidable foe requires strategic prowess to overcome its relentless onslaught.",
 },
-]
+];

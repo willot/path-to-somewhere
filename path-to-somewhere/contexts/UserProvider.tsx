@@ -2,7 +2,6 @@
 
 import { Character } from "@/app/profile/page";
 import { Armor, Vitals, Weapon } from "@/components/Inventory";
-import { log } from "console";
 import React, { createContext, useEffect, useState } from 'react';
 
 
@@ -11,8 +10,10 @@ const setLocalStorageObject = (key: string, value: CharacterDetails) => {
 };
 
 const getLocalStorageObject = (key: string): CharacterDetails | undefined => {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : null;
+    if (typeof window !== 'undefined') {
+        const storedValue = localStorage.getItem(key);
+        return storedValue ? JSON.parse(storedValue) : null;
+    }
 };
 
 export interface CharacterDetails {
